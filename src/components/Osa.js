@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Osa = (props) =>{
+const Osa = ({sis, teht}) =>{
   return(
     <div>
-    <p>{props.sis} {props.teht}</p>
+    <p>{sis} {teht}</p>
     </div>
   )
 }
