@@ -11,10 +11,11 @@ class App extends React.Component {
         { name: 'Arto Kiuas', number:'020-8549867' },
         { name: 'Tero Esa', number:'010-3256945' },
         { name: 'Tiina Terävä', number:'050-9865478' },
-        { name: 'Meija Meikänen', number:'050-6547851' },
+        { name: 'Maija Meikänen', number:'050-6547851' },
       ],
       newName: '',
-      newNumber: ''
+      newNumber: '',
+      suodatin: ''
     }
   }
 
@@ -39,12 +40,10 @@ class App extends React.Component {
         persons: uusiPersons,
         newName: '',
         newNumber: '',
-        suodatin: ''
       })
 
     } else{
       alert("Nimi löytyy tai on tyhjä!")
-
     }
   }
 
@@ -59,8 +58,9 @@ class App extends React.Component {
   }
 
   asetaSuodatin = (event) => {
-    console.log(event.target.value)
-    this.setState({ suodatin: event.target.value })
+    //Suodatin myös lowerCase
+    //console.log(event.target.value.toLowerCase())
+    this.setState({ suodatin: event.target.value.toLowerCase() })
   }
 
   render() {
@@ -71,7 +71,7 @@ class App extends React.Component {
 
         <div>
           <div className="form">
-            <label className="labels">Etsi</label>
+            <label className="labels">Etsi nimellä:</label>
             <input onChange={this.asetaSuodatin}/>
           </div>
           <h3>Lisää uusi yhteystieto</h3>
@@ -95,7 +95,9 @@ class App extends React.Component {
         <h2>Numerot</h2>
         <table className="taulu">
           <tbody>
-            {this.state.persons.map( henkilo => <tr key={henkilo.name}><td>{henkilo.name}</td><td>{henkilo.number}</td></tr>)}
+            {this.state.persons
+              .filter(henkilo => henkilo.name.toLowerCase().includes(this.state.suodatin))
+              .map(henkilo => <tr key={henkilo.name}><td>{henkilo.name}</td><td>{henkilo.number}</td></tr>)}
           </tbody>
         </table>
       </div>
