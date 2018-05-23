@@ -1,4 +1,7 @@
 import React from 'react';
+import Luettelo from './components/Luettelo'
+import UusiYhteys from './components/UusiYhteys'
+import Suodatin from './components/Suodatin'
 import './app.css';
 
 
@@ -20,7 +23,7 @@ class App extends React.Component {
   }
 
   //https://reactjs.org/docs/forms.html
-  lisaaNimi = (event) => {
+  lisaaTieto = (event) => {
     event.preventDefault()
     //Find palauttaa undefined, jos ei löydy --> vaarallinen perhaps?
     //let ehto = this.state.persons.find(nimi => this.state.newName === nimi.name)
@@ -67,39 +70,16 @@ class App extends React.Component {
     return (
       <div className="container">
         <h2>Puhelinluettelo</h2>
-
-
         <div>
-          <div className="form">
-            <label className="labels">Etsi nimellä:</label>
-            <input onChange={this.asetaSuodatin}/>
-          </div>
+          <Suodatin suodatin={this.asetaSuodatin} />
           <h3>Lisää uusi yhteystieto</h3>
-          <form className="form" onSubmit={this.lisaaNimi}>
-            <label className="labels">Nimi</label>
-              <input
-              value={this.state.newName}
-              onChange={this.asetaNewName}
-              placeholder='Lisaa nimi...'
-              />
-            <label className="labels">Numero</label>
-              <input
-              value={this.state.newNumber}
-              onChange={this.asetaNewNumber}
-              placeholder='Lisaa numero...'
-              />
-              <p></p>
-            <button type="submit">lisää</button>
-          </form>
+          <UusiYhteys
+            state={this.state} newName={this.asetaNewName}
+            newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto}
+            />
         </div>
         <h2>Numerot</h2>
-        <table className="taulu">
-          <tbody>
-            {this.state.persons
-              .filter(henkilo => henkilo.name.toLowerCase().includes(this.state.suodatin))
-              .map(henkilo => <tr key={henkilo.name}><td>{henkilo.name}</td><td>{henkilo.number}</td></tr>)}
-          </tbody>
-        </table>
+        <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} />
       </div>
     )
   }
