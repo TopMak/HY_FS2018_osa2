@@ -2,6 +2,8 @@ import React from 'react';
 import Luettelo from './components/Luettelo'
 import UusiYhteys from './components/UusiYhteys'
 import Suodatin from './components/Suodatin'
+import axios from 'axios'
+//Omat
 import './app.css';
 
 
@@ -9,18 +11,22 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: [
-        { name: 'Arto Hellas', number:'020-1236457' },
-        { name: 'Arto Kiuas', number:'020-8549867' },
-        { name: 'Tero Esa', number:'010-3256945' },
-        { name: 'Tiina Terävä', number:'050-9865478' },
-        { name: 'Maija Meikänen', number:'050-6547851' },
-      ],
+      persons: [],
       newName: '',
       newNumber: '',
       suodatin: ''
     }
   }
+
+  componentDidMount(){
+  //console.log('will mount')
+  //Voidaan ketjuttaa axios kutsu ja tapahtumakuuntelija
+  axios.get('http://localhost:3001/persons')
+       .then(response => {
+    //console.log('promise fulfilled')
+    this.setState({persons: response.data})
+  })
+}
 
   //https://reactjs.org/docs/forms.html
   lisaaTieto = (event) => {
