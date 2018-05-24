@@ -3,7 +3,9 @@ import Luettelo from './components/Luettelo'
 import UusiYhteys from './components/UusiYhteys'
 import Suodatin from './components/Suodatin'
 import axios from 'axios'
+
 //Omat
+import numbersService from './services/numbersService'
 import './app.css';
 
 
@@ -43,13 +45,18 @@ class App extends React.Component {
         number: this.state.newNumber
       }
 
-      const uusiPersons = this.state.persons.concat(uusiPerson)
+      //const uusiPersons = this.state.persons.concat(uusiPerson)
       //console.log(uusiPersons)
-      this.setState({
-        persons: uusiPersons,
-        newName: '',
-        newNumber: '',
-      })
+      axios.post('http://localhost:3001/persons', uusiPerson)
+            .then(response => response.data)
+            .then(response => {
+              console.log(response)
+              this.setState({
+                persons: this.state.persons.concat(uusiPerson),
+                newName: '',
+                newNumber: '',
+              })
+            })
 
     } else{
       alert("Nimi löytyy tai on tyhjä!")

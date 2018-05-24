@@ -19,6 +19,21 @@
       "name": "Lea Kutvonen",
       "number": "040-123456",
       "id": 4
+    },
+    {
+      "name": "Martti Vartti",
+      "number": "045-9287828",
+      "id": 5
+    },
+    {
+      "name": "Ari Kari",
+      "number": "054-0989685",
+      "id": 6
+    },
+    {
+      "name": "Sari Vartti",
+      "number": "054-8756278",
+      "id": 7
     }
   ]
 }
