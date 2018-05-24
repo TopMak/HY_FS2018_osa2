@@ -21,14 +21,14 @@ class App extends React.Component {
   }
 
   componentDidMount(){
-  //console.log('will mount')
-  //Voidaan ketjuttaa axios kutsu ja tapahtumakuuntelija
-  axios.get('http://localhost:3001/persons')
-       .then(response => {
-    //console.log('promise fulfilled')
-    this.setState({persons: response.data})
-  })
-}
+    numbersService
+      .getAllPersons()
+      .then(allPersons => {
+         //console.log('promise fulfilled')
+         this.setState({persons: allPersons})
+        })
+      .catch(error => alert('Ei yhteyttä palvelimelle!'))
+  }
 
   //https://reactjs.org/docs/forms.html
   lisaaTieto = (event) => {
@@ -47,16 +47,16 @@ class App extends React.Component {
 
       //const uusiPersons = this.state.persons.concat(uusiPerson)
       //console.log(uusiPersons)
-      axios.post('http://localhost:3001/persons', uusiPerson)
-            .then(response => response.data)
-            .then(response => {
-              console.log(response)
-              this.setState({
-                persons: this.state.persons.concat(uusiPerson),
-                newName: '',
-                newNumber: '',
-              })
-            })
+      numbersService
+        .createPerson(uusiPerson)
+        .then(response => {
+          console.log(response)
+          this.setState({
+            persons: this.state.persons.concat(uusiPerson),
+            newName: '',
+            newNumber: '',
+          })
+        })
 
     } else{
       alert("Nimi löytyy tai on tyhjä!")
