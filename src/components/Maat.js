@@ -8,16 +8,16 @@ const Maat = ({countries, suodatin}) => {
 const maita = countries.filter(maa => maa.name.toLowerCase().includes(suodatin))
 
 if(maita.length === 1){
-
+  console.log(maita)
   return (
-    <table className="taulu">
-      <tbody>
-        {maita.map(maa => <tr key={maa.name}><td>{maa.name}</td></tr>)}
-      </tbody>
-    </table>
+    <div>
+    <Maa maa={maita[0]} />
+    </div>
   )
 } else if(maita.length <= 10){
   return (
+    <div>
+    <h2>Maat</h2>
     <table className="taulu">
       <tbody>
         {maita.map(maa => <tr key={maa.name}><td>{maa.name}</td></tr>)
@@ -33,20 +33,18 @@ if(maita.length === 1){
         }
       </tbody>
     </table>
+    </div>
   )
 
 } else{
   console.log(maita)
   return (
+    <div>
+    <h2>Maat</h2>
     <p> Liikaa maita ({maita.length}), muuta hakuehtoja. </p>
-
+    </div>
   )
-
-}
-
-
-
-
+  }
 }
 
 export default Maat

@@ -38,7 +38,6 @@ class App extends React.Component {
         <div>
           <Suodatin suodatin={this.asetaSuodatin} />
         </div>
-        <h2>Numerot</h2>
         <Maat countries={this.state.countries} suodatin={this.state.suodatin} />
       </div>
     )
