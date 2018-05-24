@@ -3,12 +3,12 @@ import '../App.css';
 
 import Maa from './Maa'
 
-const Maat = ({countries, suodatin}) => {
+const Maat = ({countries, suodatin, klikkaus}) => {
 
 const maita = countries.filter(maa => maa.name.toLowerCase().includes(suodatin))
 
 if(maita.length === 1){
-  console.log(maita)
+  //console.log(maita)
   return (
     <div>
     <Maa maa={maita[0]} />
@@ -20,7 +20,7 @@ if(maita.length === 1){
     <h2>Maat</h2>
     <table className="taulu">
       <tbody>
-        {maita.map(maa => <tr key={maa.name}><td>{maa.name}</td></tr>)
+        {maita.map(maa => <tr key={maa.name}><td className="maarivi" onClick={klikkaus}>{maa.name}</td></tr>)
 
           /*
           maita.map(maa => <tr key={maa.name}><td>{maa.name}</td></tr>)

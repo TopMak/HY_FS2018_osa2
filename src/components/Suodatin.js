@@ -1,11 +1,11 @@
 import React from 'react';
 import '../App.css';
 
-const Suodatin = ({suodatin}) => {
+const Suodatin = ({arvo,suodatin}) => {
   return (
     <div className="form">
       <label className="labels">Etsi nimellä:</label>
-      <input onChange={suodatin}/>
+      <input value={arvo} onChange={suodatin}/>
     </div>
   )
 }

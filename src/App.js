@@ -31,14 +31,19 @@ class App extends React.Component {
     this.setState({ suodatin: event.target.value.toLowerCase() })
   }
 
+  
+  klikkaaMaa = (event) => {
+    this.setState({ suodatin: event.target.textContent.toLowerCase() })
+  }
+
   render() {
     return (
       <div className="container">
         <h2>Etsi maita</h2>
         <div>
-          <Suodatin suodatin={this.asetaSuodatin} />
+          <Suodatin arvo={this.state.suodatin} suodatin={this.asetaSuodatin} />
         </div>
-        <Maat countries={this.state.countries} suodatin={this.state.suodatin} />
+        <Maat countries={this.state.countries} suodatin={this.state.suodatin} klikkaus={this.klikkaaMaa} />
       </div>
     )
   }

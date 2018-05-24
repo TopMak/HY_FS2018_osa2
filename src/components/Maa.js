@@ -16,12 +16,9 @@ return (
         <tr><td>Asukasluku: </td><td>{maa.population}</td></tr>
         <tr><td>Pääkaupunki: </td><td>{maa.capital}</td></tr>
         <tr><td>Valuutta: </td><td>{maa.currencies[0].code}</td></tr>
-
     </tbody>
   </table>
-    <img src={maa.flag} className="flag"/>
-
-
+    <img src={maa.flag} alt="no can do :(" className="flag"/>
   </div>
 )
 

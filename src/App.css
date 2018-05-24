@@ -1,5 +1,12 @@
+
 .flag{
   border: 1px solid;
   width: 40%;
   height: auto;
+}
+
+/* Boldaa tekstin hiiren ollessa päällä */
+.maarivi:hover {
+  font-weight: bold;
+
 }
