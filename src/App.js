@@ -1,0 +1,48 @@
+import React from 'react';
+import axios from 'axios'
+//Omat
+import Maat from './components/Maat'
+import Suodatin from './components/Suodatin'
+import './App.css';
+
+
+class App extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      countries: [],
+      suodatin: ''
+    }
+  }
+
+  componentDidMount(){
+  console.log('will mount')
+  //Voidaan ketjuttaa axios kutsu ja tapahtumakuuntelija
+  axios.get('https://restcountries.eu/rest/v2/all')
+       .then(response => {
+    console.log('promise fulfilled')
+    this.setState({countries: response.data})
+  })
+}
+
+  asetaSuodatin = (event) => {
+    //Suodatin myös lowerCase
+    //console.log(event.target.value.toLowerCase())
+    this.setState({ suodatin: event.target.value.toLowerCase() })
+  }
+
+  render() {
+    return (
+      <div className="container">
+        <h2>Etsi maita</h2>
+        <div>
+          <Suodatin suodatin={this.asetaSuodatin} />
+        </div>
+        <h2>Numerot</h2>
+        <Maat countries={this.state.countries} suodatin={this.state.suodatin} />
+      </div>
+    )
+  }
+}
+
+export default App
