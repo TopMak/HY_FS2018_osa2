@@ -2,7 +2,7 @@ import React from 'react';
 import Luettelo from './components/Luettelo'
 import UusiYhteys from './components/UusiYhteys'
 import Suodatin from './components/Suodatin'
-import axios from 'axios'
+//import axios from 'axios'
 
 //Omat
 import numbersService from './services/numbersService'
@@ -52,7 +52,7 @@ class App extends React.Component {
         .then(response => {
           console.log(response)
           this.setState({
-            persons: this.state.persons.concat(uusiPerson),
+            persons: this.state.persons.concat(response),
             newName: '',
             newNumber: '',
           })
@@ -79,6 +79,29 @@ class App extends React.Component {
     this.setState({ suodatin: event.target.value.toLowerCase() })
   }
 
+  poistaYhteystieto = (id) => {
+    return () => {
+      console.log('klikattu ' + id)
+      if(window.confirm("Varmista " + this.state.persons.find(n => n.id === id).name + " poistaminen")){
+        numbersService
+          .deletePerson(id)
+          .then(response => {
+            //console.log(response);
+            //console.log(response.filter(n => n.id !== id))
+
+            this.setState({
+              persons: this.state.persons.filter(n => n.id !== id)
+            })
+          })
+          .catch(error => alert('Yhteystieto on jo poistettu!'))
+      console.log('Poistettu ' + id)
+      
+      } else {
+        console.log("Poisto peruutettu")
+        }
+      }
+  }
+
   render() {
     return (
       <div className="container">
@@ -92,7 +115,7 @@ class App extends React.Component {
             />
         </div>
         <h2>Numerot</h2>
-        <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} />
+        <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} poista={this.poistaYhteystieto} />
       </div>
     )
   }
