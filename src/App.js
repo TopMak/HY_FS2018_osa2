@@ -1,5 +1,4 @@
 import React from 'react';
-//import axios from 'axios'
 
 //Omat
 import Luettelo from './components/Luettelo'
@@ -35,21 +34,19 @@ class App extends React.Component {
   //https://reactjs.org/docs/forms.html
   lisaaTieto = (event) => {
     event.preventDefault()
-    //Find palauttaa undefined, jos ei löydy --> huono perhaps? Some metodi palauttaisi boolean.
+    //Find palauttaa undefined, jos ei löydy --> huono perhaps? Some-metodi palauttaisi boolean.
     //Toisaalta find palauttaa henkilön, jota voidaan sitten hyödyntää...
     let henkilo = this.state.persons.find(nimi => this.state.newName === nimi.name)
-    //let eiArrayssa = !(this.state.persons.some(henkilo => this.state.newName.toLowerCase() === henkilo.name.toLowerCase()))
     let eiTyhjaNimi = (this.state.newName !== "")
 
     if((henkilo === undefined) && eiTyhjaNimi){
-    //if(eiArrayssa && eiTyhja){
 
+    console.log("Uusi henkilö", henkilo)
       const uusiPerson = {
         name: this.state.newName,
         number: this.state.newNumber
       }
 
-      //const uusiPersons = this.state.persons.concat(uusiPerson)
       //console.log(uusiPersons)
       numbersService
         .createPerson(uusiPerson)
@@ -63,12 +60,12 @@ class App extends React.Component {
           })
           this.notificationTimeout(5000)
         })
-
+      /*--- Henkilön päivitys ---*/
     } else if ((henkilo !== undefined) && this.state.newNumber !== "" ) {
     //else if (!eiArrayssa && this.state.newNumber !== "" ) {
 
       if(window.confirm("Korvataanko " + henkilo.name + " numero " + henkilo.number + " uudella numerolla " + this.state.newNumber + " ?")){
-        //console.log("Numeron korvaus")
+        console.log("Numeron korvaus")
         const muutettuTieto = {...henkilo, number: this.state.newNumber }
         numbersService
           .updatePerson(henkilo.id, muutettuTieto)
@@ -84,6 +81,37 @@ class App extends React.Component {
             })
             this.notificationTimeout(5000)
           })
+          /*--- Henkilö poistettu muualla virhe, luodaan uudestaan ---*/
+          .catch(error => {
+            //console.log(error);
+            if(window.confirm("Henkilö on jo poistettu luettelosta! Haluatko lisätä " + muutettuTieto.name + " uudelleen?")){
+              console.log("Lisää uudelleen");
+              numbersService
+                .createPerson(muutettuTieto)
+                .then(takaisinLisays => {
+                  //console.log(takaisinLisays)
+                  const personsCopy = this.state.persons.filter(n => n.id !== takaisinLisays.id)
+                  this.setState({
+                    persons: personsCopy.concat(takaisinLisays),
+                    newName: '',
+                    newNumber: '',
+                    notification: {message: "Henkilö lisätty takaisin onnistuneesti!", style: "notification-success"}
+                  })
+                  this.notificationTimeout(5000)
+                })
+            } else { //Ei lisätä takaisin, mutta poistetaan nimi listalta
+                console.log("Uudelleen lisäys peruttu");
+                const personsCopy = this.state.persons.filter(n => n.id !== henkilo.id)
+                //console.log(personsCopy);
+                this.setState({
+                  persons: personsCopy,
+                  //Jätetään newName ja newNumber samoiksi -> mahdollista lisätä vielä helposti
+                  notification: {message: "Henkilöä ei lisätty!", style: "notification-error"}
+                })
+                this.notificationTimeout(5000)
+            }
+
+          })
       }
 
     } else {
@@ -92,8 +120,8 @@ class App extends React.Component {
   }
 
 notificationTimeout(sec){
-  console.log("timeout");
   setTimeout((sec) => {
+    console.log("timeout");
     this.setState({notification: {message: null, style: null}})
     }, sec)
 }
@@ -122,7 +150,6 @@ notificationTimeout(sec){
           .deletePerson(id)
           .then(response => {
             //console.log(response);
-            //console.log(response.filter(n => n.id !== id))
 
             this.setState({
               persons: this.state.persons.filter(n => n.id !== id),
@@ -143,15 +170,12 @@ notificationTimeout(sec){
     return (
       <div className="container">
         <h2>Puhelinluettelo</h2>
-        <div>
           <Suodatin suodatin={this.asetaSuodatin} />
           <h3>Lisää uusi yhteystieto</h3>
           <Notification message={this.state.notification.message} style={this.state.notification.style} />
           <UusiYhteys
             state={this.state} newName={this.asetaNewName}
-            newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto}
-            />
-        </div>
+            newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto} />
         <h2>Numerot</h2>
         <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} poista={this.poistaYhteystieto} />
       </div>
