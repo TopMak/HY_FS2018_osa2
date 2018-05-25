@@ -33,13 +33,15 @@ class App extends React.Component {
   //https://reactjs.org/docs/forms.html
   lisaaTieto = (event) => {
     event.preventDefault()
-    //Find palauttaa undefined, jos ei löydy --> vaarallinen perhaps?
-    //let ehto = this.state.persons.find(nimi => this.state.newName === nimi.name)
-    let eiArrayssa = !(this.state.persons.some(henkilo => this.state.newName === henkilo.name))
-    let eiTyhja = (this.state.newName !== "")
+    //Find palauttaa undefined, jos ei löydy --> huono perhaps? Some metodi palauttaisi boolean.
+    //Toisaalta find palauttaa henkilön, jota voidaan sitten hyödyntää...
+    let henkilo = this.state.persons.find(nimi => this.state.newName === nimi.name)
+    //let eiArrayssa = !(this.state.persons.some(henkilo => this.state.newName.toLowerCase() === henkilo.name.toLowerCase()))
+    let eiTyhjaNimi = (this.state.newName !== "")
 
-    //if((ehto === undefined) && (this.state.newName !== "")){
-    if(eiArrayssa && eiTyhja){
+    if((henkilo === undefined) && eiTyhjaNimi){
+    //if(eiArrayssa && eiTyhja){
+
       const uusiPerson = {
         name: this.state.newName,
         number: this.state.newNumber
@@ -58,10 +60,34 @@ class App extends React.Component {
           })
         })
 
-    } else{
-      alert("Nimi löytyy tai on tyhjä!")
+    } else if ((henkilo !== undefined) && this.state.newNumber !== "" ) {
+    //else if (!eiArrayssa && this.state.newNumber !== "" ) {
+
+      if(window.confirm("Korvataanko " + henkilo.name + " numero " + henkilo.number + " uudella numerolla " + this.state.newNumber + " ?")){
+        //console.log("Numeron korvaus")
+        const muutettuTieto = {...henkilo, number: this.state.newNumber }
+        numbersService
+          .updatePerson(henkilo.id, muutettuTieto)
+          .then(updatedHenkilo =>{
+            //console.log(tieto)
+            const personsCopy = this.state.persons.filter(n => n.id !== updatedHenkilo.id)
+            //console.log(updatedPersons)
+            this.setState({
+              persons: personsCopy.concat(updatedHenkilo),
+              newName: '',
+              newNumber: '',
+            })
+          })
+      }
+
+    } else {
+      alert("Sinulla on tyhjiä kenttiä!")
     }
   }
+
+  // korvaaNumero(id, numero){
+  //
+  // }
 
   asetaNewName = (event) => {
     //console.log(event.target.value)
@@ -95,7 +121,7 @@ class App extends React.Component {
           })
           .catch(error => alert('Yhteystieto on jo poistettu!'))
       console.log('Poistettu ' + id)
-      
+
       } else {
         console.log("Poisto peruutettu")
         }
