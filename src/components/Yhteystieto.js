@@ -1,5 +1,5 @@
 import React from 'react';
-import '../app.css';
+//import '../app.css';
 
 const Yhteystieto = ({name, number, poista}) => {
   return (

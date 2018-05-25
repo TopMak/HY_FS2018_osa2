@@ -1,12 +1,13 @@
 import React from 'react';
-import Luettelo from './components/Luettelo'
-import UusiYhteys from './components/UusiYhteys'
-import Suodatin from './components/Suodatin'
 //import axios from 'axios'
 
 //Omat
+import Luettelo from './components/Luettelo'
+import UusiYhteys from './components/UusiYhteys'
+import Suodatin from './components/Suodatin'
+import Notification from './components/Notification'
 import numbersService from './services/numbersService'
-import './app.css';
+import './index.css';
 
 
 class App extends React.Component {
@@ -16,7 +17,8 @@ class App extends React.Component {
       persons: [],
       newName: '',
       newNumber: '',
-      suodatin: ''
+      suodatin: '',
+      notification: {message: null, style: null}
     }
   }
 
@@ -57,7 +59,9 @@ class App extends React.Component {
             persons: this.state.persons.concat(response),
             newName: '',
             newNumber: '',
+            notification: {message: "Henkilö lisätty onnistuneesti!", style: "notification-success"}
           })
+          this.notificationTimeout(5000)
         })
 
     } else if ((henkilo !== undefined) && this.state.newNumber !== "" ) {
@@ -76,7 +80,9 @@ class App extends React.Component {
               persons: personsCopy.concat(updatedHenkilo),
               newName: '',
               newNumber: '',
+              notification: {message: "Numero muutettu onnistuneesti!", style: "notification-success"}
             })
+            this.notificationTimeout(5000)
           })
       }
 
@@ -85,9 +91,12 @@ class App extends React.Component {
     }
   }
 
-  // korvaaNumero(id, numero){
-  //
-  // }
+notificationTimeout(sec){
+  console.log("timeout");
+  setTimeout((sec) => {
+    this.setState({notification: {message: null, style: null}})
+    }, sec)
+}
 
   asetaNewName = (event) => {
     //console.log(event.target.value)
@@ -116,11 +125,13 @@ class App extends React.Component {
             //console.log(response.filter(n => n.id !== id))
 
             this.setState({
-              persons: this.state.persons.filter(n => n.id !== id)
+              persons: this.state.persons.filter(n => n.id !== id),
+              notification: {message: "Yhteystieto poistettu onnistuneesti!", style: "notification-success"}
             })
           })
           .catch(error => alert('Yhteystieto on jo poistettu!'))
-      console.log('Poistettu ' + id)
+          this.notificationTimeout(5000)
+          //console.log('Poistettu ' + id)
 
       } else {
         console.log("Poisto peruutettu")
@@ -135,6 +146,7 @@ class App extends React.Component {
         <div>
           <Suodatin suodatin={this.asetaSuodatin} />
           <h3>Lisää uusi yhteystieto</h3>
+          <Notification message={this.state.notification.message} style={this.state.notification.style} />
           <UusiYhteys
             state={this.state} newName={this.asetaNewName}
             newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto}

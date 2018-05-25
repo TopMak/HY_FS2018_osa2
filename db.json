@@ -36,14 +36,19 @@
       "id": 8
     },
     {
-      "name": "Seltzer Undonen",
-      "number": "954-9867584",
-      "id": 9
-    },
-    {
       "name": "Ari Kari",
       "number": "065-1115485",
       "id": 10
+    },
+    {
+      "name": "Esa Kone",
+      "number": "054-5555555",
+      "id": 11
+    },
+    {
+      "name": "Onni Terävä",
+      "number": "056-2489425",
+      "id": 12
     }
   ]
 }

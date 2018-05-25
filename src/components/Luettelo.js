@@ -1,6 +1,6 @@
 import React from 'react';
 import Yhteystieto from './Yhteystieto'
-import '../app.css';
+//import '../app.css';
 
 const Luettelo = ({persons, suodatin, poista}) => {
   return (

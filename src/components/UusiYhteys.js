@@ -1,5 +1,5 @@
 import React from 'react';
-import '../app.css';
+//import '../app.css';
 
 const UusiYhteys = ({state, newName, newNumber, lisaatieto}) => {
   return (
