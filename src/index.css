@@ -1,18 +1,22 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 10px;
   font-family: sans-serif;
 }
 
 /*  Pienet säädöt, ei mitään järkevää */
 .container {
-  width: 400px;
+  display: table;
+  margin: 0 auto;
   clear: both;
   padding: 0px 10px 0px 10px;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
 }
 
 .container input {
-  width: 100%;
+  width: 95%;
   clear: both;
 }
 
@@ -22,7 +26,11 @@ body {
 
 .taulu {
   list-style:none;
-  padding-left: 15px;
+  /* padding-left: 15px; */
+}
+
+td{
+  padding: 0px 5px 0px 5px;
 }
 
 .form{

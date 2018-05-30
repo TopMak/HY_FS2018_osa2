@@ -168,16 +168,18 @@ notificationTimeout(sec){
 
   render() {
     return (
-      <div className="container">
-        <h2>Puhelinluettelo</h2>
-          <Suodatin suodatin={this.asetaSuodatin} />
-          <h3>Lisää uusi yhteystieto</h3>
-          <Notification message={this.state.notification.message} style={this.state.notification.style} />
-          <UusiYhteys
-            state={this.state} newName={this.asetaNewName}
-            newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto} />
-        <h2>Numerot</h2>
-        <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} poista={this.poistaYhteystieto} />
+      <div>
+        <div className="container">
+          <h2>Puhelinluettelo</h2>
+            <Suodatin suodatin={this.asetaSuodatin} />
+            <h3>Lisää uusi yhteystieto</h3>
+            <Notification message={this.state.notification.message} style={this.state.notification.style} />
+            <UusiYhteys
+              state={this.state} newName={this.asetaNewName}
+              newNumber={this.asetaNewNumber} lisaatieto={this.lisaaTieto} />
+          <h2>Numerot</h2>
+          <Luettelo persons={this.state.persons} suodatin={this.state.suodatin} poista={this.poistaYhteystieto} />
+      </div>
       </div>
     )
   }
