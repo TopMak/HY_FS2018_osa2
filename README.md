@@ -1,5 +1,5 @@
 
-Course tasks 2.10-2.19
+Course tasks 2.6-2.19
 
 Simple "phonebook APP" in Finnish.<br>
 Backend mockup using json-server.<br>
